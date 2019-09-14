@@ -1,1 +1,41 @@
-<p>sales-table works!</p>
+<div class="dataTables h-100">
+    <div class="dataTables_scrollHeader">
+        <table class="table w-100 mb-0">
+            <thead #thead>
+                <tr>
+                    <th style="width: 25%">Наименование</th>
+                    <th style="width: 13%">Кол-во</th>
+                    <th style="width: 25%">Сумма</th>
+                    <th style="width: 15%">Скд.</th>
+                    <th style="width: 22%">Фнкц.</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="dataTables_scrollBody w-100" style="overflow-y: scroll;height: calc(100% - 51px);">
+        <table class="table w-100">
+            <tbody #tbody>
+                <tr *ngFor="let product of Products;let index = index">
+                    <td style="width: 25%" scope="row">{{product.Title}}</td>
+                    <td style="width: 13%">{{product.Price}}</td>
+                    <td style="width: 25%">{{product.Count}}</td>
+                    <td style="width: 15%">{{product.Discount}}</td>
+                    <td style="width: 22%">
+    
+                        <div class="d-flex mx-auto btn-group bg-white" role="group">
+                            <!-- <a href="#" class="btn btn-outline-primary" onclick="EditShop(1);" title="Редактировать">
+                        <i class="far fa-edit fa-1x"></i>
+                    </a>
+        
+                    <a href="#" onclick="DeleteShop(1);" class="btn btn-outline-primary" title="Удалить">
+                        <i class="far fa-trash-alt fa-1x"></i>
+                    </a> -->
+                            <a href="#" class="btn border-standart">*</a>
+                            <a href="#" class="btn border-standart">-</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

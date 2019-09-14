@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body {
+    height:100%;
+    overflow: hidden;
+}
+
+.btn-standart{
+    background-color: #9199b7 !important;
+}
+
+.btn-standart:active{
+    border-color: #9199b7 !important;
+    color:#9199b7 !important;
+    background-color: #2d3350 !important;
+}
+
+.btn-standart-off{
+    border-color: #9199b7 !important;
+    color:#9199b7 !important;
+    background-color: #2d3350 !important;
+}
+
+.border-standart{
+    border-color:  #9199b7 !important;
+}
+
+.bg-standart{
+    background-color: #2d3350 !important;
+}
