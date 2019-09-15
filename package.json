@@ -20,8 +20,11 @@
     "@angular/platform-browser-dynamic": "~8.2.6",
     "@angular/router": "~8.2.6",
     "@ng-bootstrap/ng-bootstrap": "^5.1.1",
+    "@types/jquery": "^3.3.31",
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
+    "jquery": "^3.4.1",
+    "ngx-malihu-scrollbar": "^8.0.0",
     "rxjs": "~6.5.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"

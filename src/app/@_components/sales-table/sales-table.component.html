@@ -12,7 +12,7 @@
             </thead>
         </table>
     </div>
-    <div class="dataTables_scrollBody w-100" style="overflow-y: scroll;height: calc(100% - 51px);">
+    <div malihu-scrollbar [scrollbarOptions]="scrollbarOptions" class="dataTables_scrollBody w-100" style="height: calc(100% - 51px);">
         <table class="table w-100">
             <tbody #tbody>
                 <tr *ngFor="let product of Products;let index = index">
@@ -39,3 +39,6 @@
         </table>
     </div>
 </div>
+<div >
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...
+ </div>

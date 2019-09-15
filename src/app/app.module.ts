@@ -10,6 +10,8 @@ import { LoginComponent } from './@_pages/login/login.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { SalesTableComponent } from './@_components/sales-table/sales-table.component';
 
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +23,7 @@ import { SalesTableComponent } from './@_components/sales-table/sales-table.comp
   imports: [
     NgbModule,
     BrowserModule,
+    MalihuScrollbarModule.forRoot(),
     AppRoutingModule
   ],
   providers: [],
