@@ -66,6 +66,6 @@ import { ModalContainer } from '../modal-container';
 })
 export class ModalContainerComponent implements ModalContainer {
   @HostBinding('@host') host;
-  @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
+  @ViewChild('container', { read: ViewContainerRef,static:true }) container: ViewContainerRef;
   context: ModalContext<any>;
 }

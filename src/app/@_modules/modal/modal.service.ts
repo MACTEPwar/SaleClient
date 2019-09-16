@@ -20,6 +20,7 @@ export class ModalService {
   }
 
   registerViewContainer(vcf: ViewContainerRef) {
+    console.log("registerViewContainer");
     if (this.viewContainerRef)
       this.viewContainerRef.clear();
     this.viewContainerRef = vcf;
@@ -36,6 +37,7 @@ export class ModalService {
       container.instance.context = context;
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(type);
     let componentRef = container.instance.container.createComponent(componentFactory, 0, injector);
+    
     return context.promise(container, this.viewContainerRef);
   }
 

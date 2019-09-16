@@ -12,6 +12,7 @@ import { SalesTableComponent } from './@_components/sales-table/sales-table.comp
 
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ModalModule } from './@_modules/modal/modal.module';
+import { AlertModalComponent } from './@_components/modal-windows/alert-modal/alert-modal.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ModalModule } from './@_modules/modal/modal.module';
     SaleComponent,
     DefaultComponent,
     LoginComponent,
-    SalesTableComponent
+    SalesTableComponent,
+    AlertModalComponent,
   ],
   imports: [
     NgbModule,
@@ -29,6 +31,7 @@ import { ModalModule } from './@_modules/modal/modal.module';
     ModalModule
   ],
   providers: [],
+  entryComponents: [AlertModalComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
