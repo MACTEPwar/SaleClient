@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Product } from 'src/app/@_models/Product';
 import { ProductService } from 'src/app/@_core/product/product.service';
+import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
 
 declare var $:any;
 
@@ -17,18 +18,22 @@ export class SalesTableComponent implements OnInit,AfterViewInit {
 
   Products:Array<Product>;
 
-  public scrollbarOptions = { axis: 'y', theme: 'dark',scrollButtons:{ enable: true } };
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService,private mScrollbarService: MalihuScrollbarService) { }
 
   ngOnInit() {
     this.Products = this.productService.GetTestProducts();
   }
   ngAfterViewInit(){
+
+    this.mScrollbarService.initScrollbar($(".dataTables_scrollBody"), {axis: 'y', theme: 'dark'});
+
+
     // настраиваю скроллбар
-    $(".dataTables_scrollBody .mCSB_dragger_bar").css("width","100%");
-    //$(".dataTables_scrollBody .mCSB_buttonUp").css("background-image","url(https://www.fourjay.org/myphoto/f/7/72306_up-arrow-png.png)");
-    
+    $(".dataTables_scrollBody .mCSB_dragger_bar").css("width","100%").addClass("bg-standart");
+    $(".dataTables_scrollBody .mCSB_inside > .mCSB_container").css("margin-right","40px");
+    $(".dataTables_scrollBody .mCSB_scrollTools").css("width","36px");
     //end
   }
 
