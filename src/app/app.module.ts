@@ -11,6 +11,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { SalesTableComponent } from './@_components/sales-table/sales-table.component';
 
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
+import { ModalModule } from './@_modules/modal/modal.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
     NgbModule,
     BrowserModule,
     MalihuScrollbarModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    ModalModule
   ],
   providers: [],
   bootstrap: [AppComponent]
