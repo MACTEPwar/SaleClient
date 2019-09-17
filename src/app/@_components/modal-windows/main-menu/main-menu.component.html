@@ -1,0 +1,449 @@
+<div class="modal-header p-0" style="border-bottom-width: 0px;height: 40px;">
+    <h5 class="modal-title mr-3 my-auto ml-2">{{selectedItem}}</h5>
+    <button *ngIf="selectedItem !== MenuItem.Null" type="button" (click)="setSelectedItem(MenuItem.Null)" class="ml-auto py-0 m-0 h-100 btn btn-success" data-dismiss="modal" aria-label="Close" style="border-radius: 0px;">
+    <span aria-hidden="true" style="font-size: 21px;">&larr;</span>
+    </button>
+    <button type="button" (click)="context.resolve();" class="py-0 m-0 btn btn-danger h-100" data-dismiss="modal" aria-label="Close" style="border-radius: 0px;">
+    <span aria-hidden="true" style="font-size: 25px;">&times;</span>
+    </button>
+</div>
+<div class="modal-body bg-standart text-standart" [ngSwitch]="selectedItem">
+    <div *ngSwitchCase="MenuItem.Null" class="col-12">
+        <div class="row">
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style" (click)="setSelectedItem(MenuItem.Copy)">
+                <div class="row">
+                   <img src="../../assets/icons/copy_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Копии</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style" (click)="setSelectedItem(MenuItem.Money)">
+                <div class="row">
+                   <img src="../../assets/icons/money_menu.png" class="m-1" />
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Деньги</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style" (click)="setSelectedItem(MenuItem.Returns)">
+                <div class="row">
+                   <img src="../../assets/icons/return_menu.png" class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Возвраты</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style" (click)="setSelectedItem(MenuItem.Reports)">
+                <div class="row">
+                   <img src="../../assets/icons/report_menu.png" class="m-1" />
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Отчеты</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style" (click)="setSelectedItem(MenuItem.Service)">
+                <div class="row">
+                   <img src="../../assets/icons/service_menu.png" class="m-1" />
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Сервис</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style" (click)="setSelectedItem(MenuItem.System)">
+                <div class="row">
+                   <img src="../../assets/icons/system_menu.png" class="m-1" />
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Система</span>
+                </div>
+             </button>
+            </div>
+        </div>
+    </div>
+    <div *ngSwitchCase="MenuItem.Copy" class="col-12">
+        <div class="row">
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/copy_receipt_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Копиия чека</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/copy_klef_receipt_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Копия чека КЛЕФ</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/copy_receipt_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Копия чека терминал</span>
+                </div>
+             </button>
+            </div>
+        </div>
+    </div>
+    <div *ngSwitchCase="MenuItem.Money" class="col-12">
+        <div class="row">
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/null_receipt_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Нулевой чек</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/service_out_receipt_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Служебный вынос</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/service_in_receipt_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Служебный внос</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/open_moneybox_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Денежный ящик</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/money_in_moneybox_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Денег в кассе</span>
+                </div>
+             </button>
+            </div>
+        </div>
+    </div>
+    <div *ngSwitchCase="MenuItem.Returns" class="col-12">
+        <div class="row">
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/return_receipt_by_position_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Возврат по позиции</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/return_receipt_all_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Возврат весь</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/return_receipt_by_position_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Возврат сервер </span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/return_receipt_all_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Возврат сервер весь</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/return_random_receipt_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Спец. возврат</span>
+                </div>
+             </button>
+            </div>
+        </div>
+    </div>
+    <div *ngSwitchCase="MenuItem.Reports" class="col-12">
+        <div class="row">
+            <div class="col-3 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/x_report_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Х-Отчет</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-3 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/x_report_by_terminal_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Х-Отчет на терминале</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-3 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/sales_report_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Товарный отчет</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-3 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/z_report_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Z-Отчет</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-3 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/z_report_by_terminal_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Z-Отчет на терминале</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-3 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/copy_z_report_by_terminal_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Копия Z на терминале</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-3 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/period_report_by_number_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Отчет по номеру</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-3 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/period_report_by_date_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Отчет по дате</span>
+                </div>
+             </button>
+            </div>
+        </div>
+    </div>
+    <div *ngSwitchCase="MenuItem.Service" class="col-12">
+        <div class="row">
+            <div class="col-2 my-2 text-center" style="max-width: 19.7% !important;">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/calc_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Калькулятор</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-2 my-2 text-center" style="max-width: 19.7% !important;">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/anulate_by_terminal_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Отмена по терминалу</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-2 my-2 text-center" style="max-width: 19.7% !important;">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/diagnostic_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Диагностика</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-2 my-2 text-center" style="max-width: 19.7% !important;">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/get_modem_status_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Статус модема</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-2 my-2 text-center" style="max-width: 19.7% !important;">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/info_rro_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Информация РРО</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-2 my-2 text-center" style="max-width: 19.7% !important;">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/с.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Установить время POS</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-2 my-2 text-center" style="max-width: 19.7% !important;">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/set_date_in_rro_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Установить время ФР</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-2 my-2 text-center" style="max-width: 19.7% !important;">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/set_date_from_pos_to_rro_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Время с POS в ФР</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-2 my-2 text-center" style="max-width: 19.7% !important;">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/fatal_close_receipt_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Аварийно закрыть чек</span>
+                </div>
+             </button>
+            </div>
+        </div>
+    </div>
+    <div *ngSwitchCase="MenuItem.System" class="col-12">
+        <div class="row">
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/poweroff_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Выключение</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/exit_to_os_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Выход в ОС вынос</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/restart_psp_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Перезапуск программы</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/reboot_os_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Перезапуск кассы</span>
+                </div>
+             </button>
+            </div>
+            <div class="col-4 my-2 text-center">
+                <button class="btn btn-style">
+                <div class="row text-center d-block">
+                   <img src="../../assets/icons/configure_psp_menu.png"  class="m-1"/>
+                </div>
+                <div class="row d-block text-center text-standart">
+                   <span style="font-weight: 700;font-size: 24px">Конфигурация ПО</span>
+                </div>
+             </button>
+            </div>
+        </div>
+    </div>
+</div>

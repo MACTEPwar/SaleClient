@@ -1,0 +1,26 @@
+<div class="row p-0 m-0 h-100" [ngStyle]="{'height':heightStyle}">
+    <div class="col col-num p-0 m-0" style="height: calc(100% / 4);">
+        <div class="row m-0 p-0 row-num h-100"><button (click)="addNumber(7);" class="btn btn-standart btn-block m-1"><span class="m-auto">7</span></button></div>
+        <div class="row m-0 p-0 row-num h-100"><button (click)="addNumber(4);" class="btn btn-standart btn-block m-1"><span class="m-auto">4</span></button></div>
+        <div class="row m-0 p-0 row-num h-100"><button (click)="addNumber(1);" class="btn btn-standart btn-block m-1"><span class="m-auto">1</span></button></div>
+        <div class="row m-0 p-0 row-num h-100"><button (click)="addNumber(0);" class="btn btn-standart btn-block m-1"><span class="m-auto">0</span></button></div>
+    </div>
+    <div class="col col-num px-0" style="height: calc(100% / 4);">
+        <div class="row m-0 p-0 row-num h-100"><button (click)="addNumber(8);" class="btn btn-standart btn-block m-1"><span class="m-auto">8</span></button></div>
+        <div class="row m-0 p-0 row-num h-100"><button (click)="addNumber(5);" class="btn btn-standart btn-block m-1"><span class="m-auto">5</span></button></div>
+        <div class="row m-0 p-0 row-num h-100"><button (click)="addNumber(2);" class="btn btn-standart btn-block m-1"><span class="m-auto">2</span></button></div>
+        <div class="row m-0 p-0 row-num h-100"><button (click)="addNumber('-');" class="btn btn-standart btn-block m-1"><span class="m-auto">-</span></button></div>
+
+    </div>
+    <div class="col col-num px-0" style="height: calc(100% / 4);">
+        <div class="row m-0 p-0 row-num h-100"><button (click)="addNumber(9);" class="btn btn-standart btn-block m-1"><span class="m-auto">9</span></button></div>
+        <div class="row m-0 p-0 row-num h-100"><button (click)="addNumber(6);" class="btn btn-standart btn-block m-1"><span class="m-auto">6</span></button></div>
+        <div class="row m-0 p-0 row-num h-100"><button (click)="addNumber(3);" class="btn btn-standart btn-block m-1"><span class="m-auto">3</span></button></div>
+        <div class="row m-0 p-0 row-num h-100"><button (click)="addNumber('*');" class="btn btn-standart btn-block m-1"><span class="m-auto">*</span></button></div>
+    </div>
+    <div class="col col-num px-0" style="height: calc(100% / 4);">
+        <div class="row m-0 p-0 row-num h-100"><button (click)="breakNumber();" class="btn btn-standart btn-block m-1"><span class="m-auto">←</span></button></div>
+        <div class="row m-0 p-0 row-num h-100"><button (click)="addNumber('.');" class="btn btn-standart btn-block m-1"><span class="m-auto">.</span></button></div>
+        <div class="row m-0 p-0 row-num" style="height: 200%"><button (click)="select(true);" class="btn btn-standart btn-block m-1"><span class="m-auto">&crarr;</span></button></div>
+    </div>
+</div>

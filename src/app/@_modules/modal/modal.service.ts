@@ -20,7 +20,6 @@ export class ModalService {
   }
 
   registerViewContainer(vcf: ViewContainerRef) {
-    console.log("registerViewContainer");
     if (this.viewContainerRef)
       this.viewContainerRef.clear();
     this.viewContainerRef = vcf;

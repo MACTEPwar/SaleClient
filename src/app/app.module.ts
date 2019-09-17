@@ -12,7 +12,11 @@ import { SalesTableComponent } from './@_components/sales-table/sales-table.comp
 
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ModalModule } from './@_modules/modal/modal.module';
+import { NumericKeyboardModule } from './@_modules/numeric-keyboard/numeric-keyboard.module';
+
 import { AlertModalComponent } from './@_components/modal-windows/alert-modal/alert-modal.component';
+import { MainMenuComponent } from './@_components/modal-windows/main-menu/main-menu.component';
+import { LoginComponent as LoginModal} from './@_components/modal-windows/login/login.component';
 
 @NgModule({
   declarations: [
@@ -22,16 +26,23 @@ import { AlertModalComponent } from './@_components/modal-windows/alert-modal/al
     LoginComponent,
     SalesTableComponent,
     AlertModalComponent,
+    MainMenuComponent,
+    LoginModal
   ],
   imports: [
     NgbModule,
     BrowserModule,
     MalihuScrollbarModule.forRoot(),
     AppRoutingModule,
-    ModalModule
+    ModalModule,
+    NumericKeyboardModule
   ],
   providers: [],
-  entryComponents: [AlertModalComponent],
+  entryComponents: [
+    AlertModalComponent,
+    MainMenuComponent, 
+    LoginModal
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
