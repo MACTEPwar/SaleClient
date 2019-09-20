@@ -1,8 +1,5 @@
 <div class="modal-header p-0" style="border-bottom-width: 0px;height: 40px;">
     <h5 class="modal-title mr-3 my-auto ml-2">Вход в систему</h5>
-    <button *ngIf="selectedItem !== MenuItem.Null" type="button" (click)="setSelectedItem(MenuItem.Null)" class="ml-auto py-0 m-0 h-100 btn btn-success" data-dismiss="modal" aria-label="Close" style="border-radius: 0px;">
-        <span aria-hidden="true" style="font-size: 21px;">&larr;</span>
-    </button>
     <button type="button" (click)="context.resolve();" class="py-0 m-0 btn btn-danger h-100" data-dismiss="modal" aria-label="Close" style="border-radius: 0px;">
         <span aria-hidden="true" style="font-size: 25px;">&times;</span>
     </button>
@@ -14,9 +11,10 @@
             <input id="login" type="text" class="form-control w-100" (click)="setViewContainerRef(login)" #login/>
             <label for="password" style="margin:2px;">Пароль:</label>
             <input id="password" type="password" class="form-control w-100" (click)="setViewContainerRef(password)" #password/>
+            <label class="text-danger">{{responseInfo}}</label>
         </div>
         <div class="col-6">
-            <app-numeric-keyboard-container></app-numeric-keyboard-container>
+            <app-numeric-keyboard-container (onSelected)="onSelected($event);"></app-numeric-keyboard-container>
         </div>
     </div>
 </div>

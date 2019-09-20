@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,10 +13,12 @@ import { SalesTableComponent } from './@_components/sales-table/sales-table.comp
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ModalModule } from './@_modules/modal/modal.module';
 import { NumericKeyboardModule } from './@_modules/numeric-keyboard/numeric-keyboard.module';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AlertModalComponent } from './@_components/modal-windows/alert-modal/alert-modal.component';
 import { MainMenuComponent } from './@_components/modal-windows/main-menu/main-menu.component';
 import { LoginComponent as LoginModal} from './@_components/modal-windows/login/login.component';
+import { AppConfigService } from './@_shared/app-config/app-config.service';
 
 @NgModule({
   declarations: [
@@ -35,9 +37,21 @@ import { LoginComponent as LoginModal} from './@_components/modal-windows/login/
     MalihuScrollbarModule.forRoot(),
     AppRoutingModule,
     ModalModule,
-    NumericKeyboardModule
+    NumericKeyboardModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      deps: [AppConfigService],
+      useFactory: (appConfigService: AppConfigService) => {
+        return () => {
+          return appConfigService.loadAppConfig();
+        };
+      }
+    },
+  ],
   entryComponents: [
     AlertModalComponent,
     MainMenuComponent, 
