@@ -18,7 +18,7 @@ export class ApiService {
       return this.http.get(this.appConfigService.Get("apiBaseUrl") + "/" + Command);
     }
     else if (typeof Params === "number" || typeof Params === "boolean" || typeof Params === "string") {
-      return this.http.post<any>(this.appConfigService.Get("apiBaseUrl") + "/" + Command, JSON.stringify({ Params }));
+      return this.http.post<any>(this.appConfigService.Get("apiBaseUrl") + "/" + Command,  Params );
     }
     else if (Params instanceof Array) {
       let param = {};
@@ -63,6 +63,12 @@ export class ApiService {
     else {
       console.log("failed");
     }
+  }
+
+  Tester(Command:string,Params: any = null){
+    return this.http.post(this.appConfigService.Get("apiBaseUrl") + "/" + Command, Params)
+    .pipe(map(result => {
+    }));
   }
 
   TestConnection() {

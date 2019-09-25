@@ -19,6 +19,7 @@ import { AlertModalComponent } from './@_components/modal-windows/alert-modal/al
 import { MainMenuComponent } from './@_components/modal-windows/main-menu/main-menu.component';
 import { LoginComponent as LoginModal} from './@_components/modal-windows/login/login.component';
 import { AppConfigService } from './@_shared/app-config/app-config.service';
+import { SearchProductComponent } from './@_components/modal-windows/search-product/search-product.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AppConfigService } from './@_shared/app-config/app-config.service';
     SalesTableComponent,
     AlertModalComponent,
     MainMenuComponent,
-    LoginModal
+    LoginModal,
+    SearchProductComponent
   ],
   imports: [
     NgbModule,
@@ -55,7 +57,8 @@ import { AppConfigService } from './@_shared/app-config/app-config.service';
   entryComponents: [
     AlertModalComponent,
     MainMenuComponent, 
-    LoginModal
+    LoginModal,
+    SearchProductComponent
   ],
   bootstrap: [AppComponent]
 })

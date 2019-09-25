@@ -4,6 +4,7 @@ import { MainMenuComponent } from 'src/app/@_components/modal-windows/main-menu/
 import { AuthorizeService } from 'src/app/@_core/authorize/authorize.service';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/@_core/user/user.service';
+import { SearchProductComponent } from 'src/app/@_components/modal-windows/search-product/search-product.component';
 
 @Component({
   selector: 'app-sale',
@@ -22,8 +23,8 @@ export class SaleComponent implements OnInit {
     
   }
 
+  //TODO: доделать, когда юра сделает
   async showMenu() {
-    //this.generatorMenu.generateMenu();
     this.userService.getMenu();
     await this.modalService.open(MainMenuComponent);
   }
@@ -31,6 +32,10 @@ export class SaleComponent implements OnInit {
   async logout(){
     await this.authorizeService.logout();
     this.router.navigate(["/login"]);
+  }
+
+  async ShowBarcodeProduct(){
+    await this.modalService.open(SearchProductComponent);
   }
 
 }
