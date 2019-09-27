@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Product } from 'src/app/@_models/Product';
-import { ProductService } from 'src/app/@_core/product/product.service';
 import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
+import { ReceiptService } from 'src/app/@_core/receipt/receipt.service';
 
 declare var $:any;
 
@@ -20,10 +20,14 @@ export class SalesTableComponent implements OnInit,AfterViewInit {
 
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
-  constructor(private productService: ProductService,private mScrollbarService: MalihuScrollbarService) { }
+  constructor(
+    private mScrollbarService: MalihuScrollbarService,
+    private receiptService:ReceiptService
+    ) { }
 
-  ngOnInit() {
-    this.Products = this.productService.GetTestProducts();
+  async ngOnInit() {
+    await this.receiptService.refreshProductList();
+    this.Products = this.receiptService.Products;
   }
   ngAfterViewInit(){
 

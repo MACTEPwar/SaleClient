@@ -5,6 +5,8 @@ import { AuthorizeService } from 'src/app/@_core/authorize/authorize.service';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/@_core/user/user.service';
 import { SearchProductComponent } from 'src/app/@_components/modal-windows/search-product/search-product.component';
+import { ReceiptService } from 'src/app/@_core/receipt/receipt.service';
+import { AlertModalComponent } from 'src/app/@_components/modal-windows/alert-modal/alert-modal.component';
 
 @Component({
   selector: 'app-sale',
@@ -13,7 +15,13 @@ import { SearchProductComponent } from 'src/app/@_components/modal-windows/searc
 })
 export class SaleComponent implements OnInit {
 
-  constructor(private modalService: ModalService,private authorizeService:AuthorizeService,private router:Router,private userService:UserService) { 
+  constructor(
+    private modalService: ModalService,
+    private authorizeService:AuthorizeService,
+    private router:Router,
+    private userService:UserService,
+    private receiptService:ReceiptService
+    ) { 
   }
 
   async ngOnInit() {
@@ -36,6 +44,28 @@ export class SaleComponent implements OnInit {
 
   async ShowBarcodeProduct(){
     await this.modalService.open(SearchProductComponent);
+  }
+
+  async doAnulReceipt(){
+    let isCanAnulate = await this.receiptService.isCanAnulate();
+    if (isCanAnulate.Successed){
+      let doAnulReceipt = await this.receiptService.doAnulReceipt();
+      if (doAnulReceipt.Successed){
+        await this.modalService.open(AlertModalComponent,{header:"Ануляция",body:"Чек анулирован"});
+        this.receiptService.refreshProductList();
+      }
+    }
+    else if (!isCanAnulate.Successed && isCanAnulate.Value === "canceled_by_user"){
+      await this.modalService.open(AlertModalComponent,{header:"Ануляция",body:"Ануляция отменена пользователем"});
+    }
+    else if (!isCanAnulate.Successed && isCanAnulate.Value === "receipt_empty"){
+      await this.modalService.open(AlertModalComponent,{header:"Ануляция",body:"Нельзя анулировать пустой чек"});
+    }
+    else {
+      //TODO show dialog login2
+      await this.modalService.open(AlertModalComponent,{header:"Ануляция",body:isCanAnulate.Message});
+    }
+    
   }
 
 }

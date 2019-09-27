@@ -9,5 +9,6 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-success" (click)="context.resolve();">Принять</button>
+    <button class="btn btn-danger" (click)="context.resolve(false);">Отменить</button>
+    <button class="btn btn-success" (click)="context.resolve(true);">Принять</button>
 </div>

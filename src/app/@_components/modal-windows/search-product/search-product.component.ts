@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, ɵConsole } from '@angular/core';
 import { ModalContext } from 'src/app/@_modules/modal/modal-context';
 import { NumericKeyboardService } from 'src/app/@_modules/numeric-keyboard/numeric-keyboard.service';
 import { ProductService } from 'src/app/@_core/product/product.service';
 import { ApiService } from 'src/app/@_shared/api/api.service';
-import { Test } from 'src/app/@_models/Test';
 import { DebugService } from 'src/app/@_core/logs/debug.service';
 import { isUndefined } from 'util';
+import { Product } from 'src/app/@_models/Product';
+import { ReceiptService } from 'src/app/@_core/receipt/receipt.service';
 
 @Component({
   selector: 'app-search-product',
@@ -15,6 +16,7 @@ import { isUndefined } from 'util';
 export class SearchProductComponent implements OnInit, AfterViewInit {
 
   errorMessage = "";
+  //product:Product = null;
 
   @ViewChild('input', { static: false }) input: ElementRef;
 
@@ -22,7 +24,8 @@ export class SearchProductComponent implements OnInit, AfterViewInit {
     public context: ModalContext<any>,
     private numericKeyboardService: NumericKeyboardService,
     private productService: ProductService,
-    private api: ApiService
+    private api: ApiService,
+    private receiptService:ReceiptService
   ) { }
 
   ngOnInit() {
@@ -35,35 +38,20 @@ export class SearchProductComponent implements OnInit, AfterViewInit {
 
   async onSelected(value: boolean) {
     //await this.test(this.input.nativeElement.value);
-    console.log(await this.ProcessEntryCode(this.input.nativeElement.value));
-  }
+    //console.log(await this.ProcessEntryCode(this.input.nativeElement.value));
+    if (value) {
+      let code: string = this.input.nativeElement.value;
 
-  //TODO: какая-то дичь
-  async test(code: string) {
-    let getPricesByEntryCode = await this.productService.ProcessEntryCodeStep1(code);
-    //console.log(getPricesByEntryCode);
-    if (getPricesByEntryCode.result) {
-      if (getPricesByEntryCode.listPrices.length > 1) {
-        // TODO: показываю диалог
+      if (code.indexOf("-") === -1){
+        await this.ProcessEntryCode(code);
+        this.context.resolve();
       }
-
-      let step2 = await this.productService.ProcessEntryCodeStep2(code, getPricesByEntryCode.amount, getPricesByEntryCode.listPrices.GValue[0]);
-      if (!step2.ProtocolIsComlete) {
-        //TODO: показать сообщение "повторить?"
-        let scale = await this.productService.GetScale((step2.GValue as any).amount);
+      else if(code.indexOf("-") === 0){
+        
       }
-      else {
-        let s2Val = step2.GValue as any;
-        if (s2Val.result === "next") {
-          DebugService.WriteInfo(`if (s2Val.result === "next")`);
-        }
-        else if (s2Val.result === "dialog") {
-          DebugService.WriteInfo(`if (s2Val.result === "dialog")`);
-        }
+      else{
+        confirm("Неверный формат строки");
       }
-    }
-    else {
-      this.errorMessage = getPricesByEntryCode.message;
     }
   }
 
@@ -77,24 +65,26 @@ export class SearchProductComponent implements OnInit, AfterViewInit {
       //TODO display error dialog
       return false;
     }
-    let stepN1 = await this.productService.stepN1(code);
+    let stepN1 = await this.productService.firstStep(code);
 
     amount = stepN1.amount;
     barcode = stepN1.barcode;
 
-    var pureProductViewModel = stepN1.ppDTO.GValue;
-    if (stepN1.ppDTO === null) {
+    var pureProductsViewModel = stepN1.ppDTO.GValue;
+
+    if (pureProductsViewModel === null) {
+      DebugService.WriteInfo("if (stepN1.ppDTO === null)")
       let getPricesByEntryCode = await this.productService.getListPureProductByEntryCode(barcode);
 
       if ((getPricesByEntryCode.GValue as any).length > 1) {
         DebugService.WriteInfo("if (getPricesByEntryCode.GValue.length > 1)");
         //TODO select one product
-        pureProductViewModel = getPricesByEntryCode.GValue[0];
+        pureProductsViewModel = getPricesByEntryCode.GValue[0];
       }
       else if ((getPricesByEntryCode.GValue as any).length === 1) {
         DebugService.WriteInfo("else if (getPricesByEntryCode.GValue.length === 1)");
         //TODO select first product
-        pureProductViewModel = getPricesByEntryCode.GValue[0];
+        pureProductsViewModel = getPricesByEntryCode.GValue[0];
       }
       else {
         DebugService.WriteInfo("else (getPricesByEntryCode.GValue.length > 1)");
@@ -102,7 +92,10 @@ export class SearchProductComponent implements OnInit, AfterViewInit {
         return false;
       }
     }
-    if ((pureProductViewModel as any).Price === 0.00) {
+
+    console.log(`pureProductsViewModel = ${JSON.stringify(pureProductsViewModel,null,4)}`);
+
+    if (pureProductsViewModel.Price === 0.00) {
       DebugService.WriteInfo("if (pureProductViewModel.Price === 0.00)");
       //TODO display error dialog
       return false;
@@ -117,7 +110,8 @@ export class SearchProductComponent implements OnInit, AfterViewInit {
       return false;
     }
 
-    let IsAdditionalWeight = this.productService.tempIsAdditionalWeight();
+    // let IsAdditionalWeight = this.productService.tempIsAdditionalWeight();
+    let IsAdditionalWeight = await this.productService.isAdditionalWeight(barcode,pureProductsViewModel.Price);
     DebugService.WriteInfo(`IsAdditionalWeight = ${JSON.stringify(IsAdditionalWeight, null, 4)}`);
     if (IsAdditionalWeight.GValue) {
       DebugService.WriteInfo(`if (IsAdditionalWeight.GValue)`);
@@ -130,7 +124,7 @@ export class SearchProductComponent implements OnInit, AfterViewInit {
       amount = 1.0
     }
 
-    if ((pureProductViewModel as any).Measure === 0) {
+    if (pureProductsViewModel.Measure === 0) {
       DebugService.WriteInfo("if ((pureProductViewModel as any).Measure === 0)");
       if (amount > 9999) {
         amount = 9999;
@@ -159,19 +153,22 @@ export class SearchProductComponent implements OnInit, AfterViewInit {
       return false;
     }
     //console.log(pureProductViewModel);
-    var processAppendProduct = await this.productService.isAddProductByEntry (barcode, (pureProductViewModel as any).Price, amount);
+    var processAppendProduct = await this.productService.isAddProductByEntry(barcode, pureProductsViewModel.Price, amount);
 
     // TODO display message
     result = processAppendProduct.GValue as boolean;
 
-    if (!result){
+    if (!result) {
       confirm(processAppendProduct.GMessage);
     }
+
+    await this.receiptService.refreshProductList();
+
     return result;
   }
 
   async getScale(amount: number): Promise<number> {
-    let scale = await this.productService.GetScale(amount);
+    let scale = await this.productService.getScale(amount);
     if (scale.GValue == null) {
       //TODO display error scale.GMessage and  display dialog ask "repeat"?
       if (confirm('Повторить?')) {

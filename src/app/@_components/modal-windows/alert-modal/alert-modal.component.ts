@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ModalContext } from 'src/app/@_modules/modal/modal-context';
 
 //import { ModalContainerComponent } from 'src/app/@_modules/modal/modal-container/modal-container.component';
@@ -10,9 +10,15 @@ import { ModalContext } from 'src/app/@_modules/modal/modal-context';
 })
 export class AlertModalComponent implements OnInit {
 
-  constructor(public context:ModalContext<any>) { }
+  AlertHeader:string = "";
+  AlertBody:string = "";
+
+  constructor(public context:ModalContext<any>) {
+  }
 
   ngOnInit() {
+    this.AlertHeader = this.context.data.header;
+    this.AlertBody = this.context.data.body; 
   }
 
 }

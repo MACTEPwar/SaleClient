@@ -20,6 +20,8 @@ import { MainMenuComponent } from './@_components/modal-windows/main-menu/main-m
 import { LoginComponent as LoginModal} from './@_components/modal-windows/login/login.component';
 import { AppConfigService } from './@_shared/app-config/app-config.service';
 import { SearchProductComponent } from './@_components/modal-windows/search-product/search-product.component';
+import { ReceiptService } from './@_core/receipt/receipt.service';
+import { ConfirmModalComponent } from './@_components/modal-windows/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { SearchProductComponent } from './@_components/modal-windows/search-prod
     AlertModalComponent,
     MainMenuComponent,
     LoginModal,
-    SearchProductComponent
+    SearchProductComponent,
+    ConfirmModalComponent
   ],
   imports: [
     NgbModule,
@@ -40,7 +43,7 @@ import { SearchProductComponent } from './@_components/modal-windows/search-prod
     AppRoutingModule,
     ModalModule,
     NumericKeyboardModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     {
@@ -56,6 +59,7 @@ import { SearchProductComponent } from './@_components/modal-windows/search-prod
   ],
   entryComponents: [
     AlertModalComponent,
+    ConfirmModalComponent,
     MainMenuComponent, 
     LoginModal,
     SearchProductComponent
