@@ -7,6 +7,8 @@ import { UserService } from 'src/app/@_core/user/user.service';
 import { SearchProductComponent } from 'src/app/@_components/modal-windows/search-product/search-product.component';
 import { ReceiptService } from 'src/app/@_core/receipt/receipt.service';
 import { AlertModalComponent } from 'src/app/@_components/modal-windows/alert-modal/alert-modal.component';
+import { LoginComponent } from 'src/app/@_components/modal-windows/login/login.component';
+import { ConfirmModalComponent } from 'src/app/@_components/modal-windows/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-sale',
@@ -17,18 +19,18 @@ export class SaleComponent implements OnInit {
 
   constructor(
     private modalService: ModalService,
-    private authorizeService:AuthorizeService,
-    private router:Router,
-    private userService:UserService,
-    private receiptService:ReceiptService
-    ) { 
+    private authorizeService: AuthorizeService,
+    private router: Router,
+    private userService: UserService,
+    private receiptService: ReceiptService
+  ) {
   }
 
   async ngOnInit() {
-    if (!await this.authorizeService.IsAuthorized()){
+    if (!await this.authorizeService.IsAuthorized()) {
       this.router.navigate(['/login'])
     }
-    
+
   }
 
   //TODO: доделать, когда юра сделает
@@ -37,35 +39,53 @@ export class SaleComponent implements OnInit {
     await this.modalService.open(MainMenuComponent);
   }
 
-  async logout(){
+  async logout() {
     await this.authorizeService.logout();
     this.router.navigate(["/login"]);
   }
 
-  async ShowBarcodeProduct(){
+  async ShowBarcodeProduct() {
     await this.modalService.open(SearchProductComponent);
   }
 
-  async doAnulReceipt(){
-    let isCanAnulate = await this.receiptService.isCanAnulate();
-    if (isCanAnulate.Successed){
-      let doAnulReceipt = await this.receiptService.doAnulReceipt();
-      if (doAnulReceipt.Successed){
-        await this.modalService.open(AlertModalComponent,{header:"Ануляция",body:"Чек анулирован"});
-        this.receiptService.refreshProductList();
+  async doAnulReceipt() {
+    if (this.receiptService.isCanBeginAnulate){
+      if (await this.modalService.open(ConfirmModalComponent, { header: "Ануляция", body: "Анулировать чек?" })){
+        let isCanAnulate = await this.receiptService.isCanAnulate(1);
+        if (isCanAnulate.Successed) {
+          let doAnulReceipt = await this.receiptService.doAnulReceipt();
+          if (doAnulReceipt.Successed) {
+            await this.modalService.open(AlertModalComponent, { header: "Ануляция", body: "Чек анулирован" });
+            this.receiptService.refreshProductList();
+          }
+        }
+        else {
+          //TODO show dialog login2
+          await this.modalService.open(AlertModalComponent, { header: "Ануляция", body: isCanAnulate.Message });
+          let IsLogin2 = await this.modalService.open(LoginComponent, { loginType: 2 });
+          if (IsLogin2) {
+            let isCanAnulate = await this.receiptService.isCanAnulate(2);
+            if (isCanAnulate.Successed) {
+              let doAnulReceipt = await this.receiptService.doAnulReceipt();
+              if (doAnulReceipt.Successed) {
+                await this.modalService.open(AlertModalComponent, { header: "Ануляция", body: "Чек анулирован" });
+                this.receiptService.refreshProductList();
+              }
+              else{
+                this.modalService.open(AlertModalComponent,{header:"Ануляция чека",body:doAnulReceipt.Message})
+              }
+            }
+            else{
+              this.modalService.open(AlertModalComponent,{header:"Ануляция чека",body:"Кассир не имеет права на аннуляцию"})
+            }
+            await this.authorizeService.logout2();
+          }
+        }
       }
+     
     }
-    else if (!isCanAnulate.Successed && isCanAnulate.Value === "canceled_by_user"){
-      await this.modalService.open(AlertModalComponent,{header:"Ануляция",body:"Ануляция отменена пользователем"});
+    else{
+      await this.modalService.open(AlertModalComponent, { header: "Ануляция", body: "Нельзя анулировать пустой чек" });
     }
-    else if (!isCanAnulate.Successed && isCanAnulate.Value === "receipt_empty"){
-      await this.modalService.open(AlertModalComponent,{header:"Ануляция",body:"Нельзя анулировать пустой чек"});
-    }
-    else {
-      //TODO show dialog login2
-      await this.modalService.open(AlertModalComponent,{header:"Ануляция",body:isCanAnulate.Message});
-    }
-    
   }
-
 }

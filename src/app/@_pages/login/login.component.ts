@@ -22,6 +22,6 @@ export class LoginComponent implements OnInit {
   }
 
   async showLoginModal() {
-    await this.modalService.open(LoginModal);
+    await this.modalService.open(LoginModal,{loginType:1});
   }
 }

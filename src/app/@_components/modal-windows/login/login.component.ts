@@ -3,6 +3,7 @@ import { ModalContext } from 'src/app/@_modules/modal/modal-context';
 import { NumericKeyboardService } from 'src/app/@_modules/numeric-keyboard/numeric-keyboard.service';
 import { AuthorizeService } from 'src/app/@_core/authorize/authorize.service';
 import { Router } from '@angular/router';
+import { Response } from 'src/app/@_models/Response';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit,AfterViewInit {
   private currentInput:HTMLInputElement;
 
   responseInfo = "";
+  loginType:number;
 
   constructor(
     public context:ModalContext<any>,
@@ -27,6 +29,7 @@ export class LoginComponent implements OnInit,AfterViewInit {
     { }
 
   ngOnInit() {
+    this.loginType = this.context.data.loginType;
   }
 
   ngAfterViewInit(){
@@ -42,21 +45,37 @@ export class LoginComponent implements OnInit,AfterViewInit {
     this.numericKeyboardService.registerViewContainer(element);
   }
 
-  onSelected(value:boolean){
+  async onSelected(value:boolean){
     if(value){
       if (this.currentInput.getAttribute("id")==="login"){
         let domElement = this.password.nativeElement as HTMLInputElement;
         this.setViewContainerRef(domElement);
       }
       else{
-        this.authorizeService.login(this.login.nativeElement.value,this.password.nativeElement.value).subscribe( r => {
-          if (!r.GValue){
-            this.responseInfo =  r.GMessage;
+        if (this.loginType === 1){
+          this.authorizeService.login(this.login.nativeElement.value,this.password.nativeElement.value).subscribe( r => {
+            if (!r.GValue){
+              this.responseInfo =  r.GMessage;
+            }
+            else{
+              this.router.navigate(["/sale"]);
+            }
+          });
+        }
+        else if (this.loginType === 2){
+          let log2:Response = await this.authorizeService.login2(this.login.nativeElement.value,this.password.nativeElement.value)
+          if (!log2.GValue){
+            this.responseInfo =  log2.GMessage;
+            //this.context.resolve(false);
           }
           else{
-            this.router.navigate(["/sale"]);
+            this.context.resolve(true);
           }
-        });
+        }
+        else {
+          //TODO wtf
+        }
+        
       }
     }
   }

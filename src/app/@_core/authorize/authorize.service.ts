@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/@_shared/api/api.service';
 import { map, subscribeOn } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UserService } from '../user/user.service';
+import { Response } from 'src/app/@_models/Response';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +31,13 @@ export class AuthorizeService {
   //TODO: юрын метод ничего не возвращает
   logout(){
     return this.apiService.SendComand("Logout").toPromise();
+  }
+
+  async login2(login:string,password:string):Promise<Response>{
+    return await this.apiService.SendComand("Login2",[{"Login":login},{"Password":password}]).toPromise()
+  }
+
+  async logout2():Promise<Response>{
+    return await this.apiService.SendComand("Logout2").toPromise();
   }
 }

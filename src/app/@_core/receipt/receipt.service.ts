@@ -21,7 +21,7 @@ export class ReceiptService {
   constructor(
     private apiService: ApiService,
     private fiscalService: FiscalService,
-    private modalService:ModalService
+    private modalService: ModalService
   ) { }
 
   Products: Array<Product> = new Array<Product>();
@@ -39,28 +39,24 @@ export class ReceiptService {
     }
   }
 
-  async isCanAnulate(): Promise<DefaultResult> {
+  isCanBeginAnulate() {
+    return this.Products.length > 0;
+  }
 
-    if (this.Products.length > 0) {
-      if(await this.modalService.open(ConfirmModalComponent,{header:"Ануляция",body:"Анулировать чек?"})) {
-        let getWarningFromFiscal: DefaultResult = await this.fiscalService.getWarningFromFiscal();
-        this.WarningMessageFromFiscal = getWarningFromFiscal.Message;
+  async isCanAnulate(type:number): Promise<DefaultResult> {
+    let getWarningFromFiscal: DefaultResult = await this.fiscalService.getWarningFromFiscal();
+    this.WarningMessageFromFiscal = getWarningFromFiscal.Message;
 
-        let isCanAnulate: Response = await this.apiService.SendComand('IsCanAnullate').toPromise();
-        DebugService.WriteInfo(`isCanAnulate = ${JSON.stringify(isCanAnulate,null,4)}`);
-        if (isCanAnulate.GValue) {
-          return new DefaultResult(true, null);
-        }
-        else {
-          return new DefaultResult(false, isCanAnulate.GMessage, "dialog_login");
-        }
-      }
-      else return new DefaultResult(false,null,"canceled_by_user");
+    let isCanAnulate: Response = type === 1 ? await this.apiService.SendComand('IsCanAnullate').toPromise() : await this.apiService.SendComand('IsCanAnullateSecond').toPromise();
+    DebugService.WriteInfo(`isCanAnulate = ${JSON.stringify(isCanAnulate, null, 4)}`);
+    if (isCanAnulate.GValue) {
+      return new DefaultResult(true, null);
     }
     else {
-      return new DefaultResult(false, null, "receipt_empty");
+      return new DefaultResult(false, isCanAnulate.GMessage);
     }
   }
+
 
   //GetReceiptWorked
   async refreshProductList(): Promise<any> {
