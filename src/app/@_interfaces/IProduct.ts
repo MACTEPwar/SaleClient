@@ -1,7 +1,19 @@
 export interface IProduct{
-    Title:string;
-    Price: number;
-    Count: number;
-    Discount: number;
-    Unit: string;
+    Article:number;
+    FullName:string;
+    ShortName:string;
+    Taxgroup:string;
+    IsLimit:number;
+    Measure:number;
+    Bar:string;
+    Dtype:number;
+    Price:number;
+    AmountLimit:number;
+    AmountDefault:number;
+    Amount:number;
+    DiscountSum:number;
+    Sum:number;
+    SumWODiscount:number;
+    MeasureName:string;
+    ArticlePosReturn:number;
 }

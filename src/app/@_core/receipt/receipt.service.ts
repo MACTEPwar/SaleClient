@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ElementRef } from '@angular/core';
 import { ApiService } from 'src/app/@_shared/api/api.service';
 import { DebugService } from '../logs/debug.service';
 import { ProductService } from '../product/product.service';
@@ -9,6 +9,7 @@ import { Response } from 'src/app/@_models/Response';
 import { ModalService } from 'src/app/@_modules/modal/modal.service';
 import { AlertModalComponent } from 'src/app/@_components/modal-windows/alert-modal/alert-modal.component';
 import { ConfirmModalComponent } from 'src/app/@_components/modal-windows/confirm-modal/confirm-modal.component';
+import { Receipt } from 'src/app/@_models/Receipt';
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +17,19 @@ import { ConfirmModalComponent } from 'src/app/@_components/modal-windows/confir
 
 export class ReceiptService {
 
+  Receipt: Receipt;
   WarningMessageFromFiscal: string;
 
   constructor(
     private apiService: ApiService,
     private fiscalService: FiscalService,
     private modalService: ModalService
-  ) { }
+  ) {
+    this.Receipt = new Receipt();
+  }
 
-  Products: Array<Product> = new Array<Product>();
+
+  //Products: Array<Product> = new Array<Product>();
 
   //TODO сделать как нужно
   async doAnulReceipt(): Promise<DefaultResult> {
@@ -40,10 +45,10 @@ export class ReceiptService {
   }
 
   isCanBeginAnulate() {
-    return this.Products.length > 0;
+    return this.Receipt.Products.length > 0;
   }
 
-  async isCanAnulate(type:number): Promise<DefaultResult> {
+  async isCanAnulate(type: number): Promise<DefaultResult> {
     let getWarningFromFiscal: DefaultResult = await this.fiscalService.getWarningFromFiscal();
     this.WarningMessageFromFiscal = getWarningFromFiscal.Message;
 
@@ -60,15 +65,23 @@ export class ReceiptService {
 
   //GetReceiptWorked
   async refreshProductList(): Promise<any> {
-    let getReceiptWorked: Response = await this.apiService.SendComand("GetReceiptWorked").toPromise();
+    //TODO change type from Receipt to Recponse
+    let getReceiptWorked:Receipt = await this.apiService.SendComand("GetReceiptWorked").toPromise();
     DebugService.WriteInfo(`GetReceiptWorked = ${JSON.stringify(getReceiptWorked, null, 4)}`);
+
+    this.Receipt.KassirName = getReceiptWorked.KassirName;
+    this.Receipt.Number = getReceiptWorked.Number;
+    this.Receipt.ReturnReceiptType = getReceiptWorked.ReturnReceiptType;
+    this.Receipt.Sum = getReceiptWorked.Sum;
+    this.Receipt.Type = getReceiptWorked.Type;
+
     //TODO исправить, когда Юра поправит
     //if (getReceiptWorked.ProtocolIsComlete){
     //TODO исправить, когда Юра поправит
     // this.Products = new Array<Product>();
-    this.Products.length = 0;
-    (getReceiptWorked as any).Products.forEach(element => {
-      this.Products.push(new Product(element.ShortName, element.Price, element.Amount, element.DiscountSum, element.Measure));
+    this.Receipt.Products.length = 0;
+    (getReceiptWorked as any).Products.forEach((element:Product, ind) => {
+      this.Receipt.Products.push(new Product(element.Article,element.FullName,element.ShortName,element.Taxgroup,element.IsLimit,element.Measure,element.Bar,element.Dtype,element.Price,element.AmountLimit,element.AmountDefault,element.Amount,element.DiscountSum,element.Sum,element.SumWODiscount,element.MeasureName,element.ArticlePosReturn, ind + 1));
     });
     return { result: true, message: null };
     // }

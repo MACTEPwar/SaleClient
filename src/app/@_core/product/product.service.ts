@@ -4,6 +4,7 @@ import { ApiService } from 'src/app/@_shared/api/api.service';
 import { DebugService } from '../logs/debug.service';
 import { Response } from 'src/app/@_models/Response';
 import { ReceiptService } from '../receipt/receipt.service';
+import { DefaultResult } from 'src/app/@_models/DefaultResult';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,20 @@ export class ProductService {
   //   this.Products.push(product);
   // }
 
+
+  getAmountString(product:Product):string{
+    if (product.Measure  != 0){
+      return product.Amount.toFixed(3);
+    }
+    return product.Amount.toFixed(0);
+  }
+
+  //TODO переделать
+  async changeProductAmount(position:number,value:number):Promise<DefaultResult>{
+    let changeProductAmount = await this.apiService.SendComand('ChangeProductAmount',[{Position:position},{Value:value}]).toPromise();
+    DebugService.WriteInfo(`changeProductAmount = ${JSON.stringify(changeProductAmount,null,4)}`);
+    return new DefaultResult(true,null);
+  }
   
 
   async isAdditionalWeight(bar,price:number):Promise<Response>{
